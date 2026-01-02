@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager - Knockout.js</title>
+
+    <script src="knockout.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card">
+    <h2>🗂 Task Manager</h2>
+
+    <div class="add-task">
+        <input type="text"
+               placeholder="Enter task"
+               data-bind="value: newTask, valueUpdate: 'afterkeydown'">
+        <button data-bind="click: addTask, enable: newTask().trim().length">
+            ➕ Add
+        </button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Task</th>
+                <th>Status</th>
+                <th>Done</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: filteredTasks">
+            <tr>
+                <td data-bind="text: $index() + 1"></td>
+                <td data-bind="text: title"></td>
+                <td>
+                    <span data-bind="text: completed() ? 'Completed' : 'Active',
+                                     css: completed() ? 'badge done' : 'badge active'">
+                    </span>
+                </td>
+                <td>
+                    <input type="checkbox" data-bind="checked: completed">
+                </td>
+                <td>
+                    <button class="delete"
+                            data-bind="click: $parent.removeTask">
+                        ❌
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <p>Total: <strong data-bind="text: tasks().length"></strong></p>
+        <p>Completed: <strong data-bind="text: completedCount"></strong></p>
+    </div>
+
+    <div class="filters">
+        <button data-bind="click: () => filter('all')">All</button>
+        <button data-bind="click: () => filter('active')">Active</button>
+        <button data-bind="click: () => filter('completed')">Completed</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
